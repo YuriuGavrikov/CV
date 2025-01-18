@@ -4,11 +4,13 @@ import TheHello from "./TheMain/TheHello.vue";
 import TheForm from "./TheMain/TheForm.vue";
 import TheEducation from "./TheMain/TheEducation.vue";
 import TheSkills from "./TheMain/TheSkills.vue";
+
 </script>
 
 <template>
   <div className="container">
     <main className="main">
+      
       <TheHello />
       <hr />
       <TheSkills />

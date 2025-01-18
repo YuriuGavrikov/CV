@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import TheModalSuccess from "./TheModalSuccess.vue";
+
+const isModalSuccess = ref(false);
 
 const theName = ref("");
 const nameTg = ref("");
 const messageUser = ref("");
+
 const submitMessage = () => {
   const TOKEN = "6278851300:AAHEwQBj6GQ34KS-vQ6_L5ej_g--UQO6N8A";
   const CHAT_ID = "-1001807655173";
@@ -25,10 +29,13 @@ const submitMessage = () => {
       console.warn(err);
     })
     .finally(() => {
-      console.log("finally");
       theName.value = "";
       nameTg.value = "";
       messageUser.value = "";
+      isModalSuccess.value = true;
+      setTimeout(() => {
+        isModalSuccess.value = false;
+      }, 1000);
     });
 };
 </script>
@@ -60,13 +67,25 @@ const submitMessage = () => {
           placeholder="Ваше сообщение"
           v-model="messageUser"
         />
-        <button className="form__btn" @click="submitMessage">Отправить</button>
+        <button
+          className="form__btn"
+          :disabled="theName && nameTg && messageUser ? false : true"
+          @click="submitMessage"
+        >
+          {{
+            theName && nameTg && messageUser
+              ? "Отправить"
+              : "Заполните все поля"
+          }}
+        </button>
       </div>
     </div>
     <div className="design_img">
       <img src="/design/design_img/2.png" alt="" />
     </div>
   </div>
+
+  <TheModalSuccess v-show="isModalSuccess" />
 </template>
 
 <style lang="scss" scoped>
@@ -127,8 +146,10 @@ textarea {
   background: #ffffff;
   border: 1px solid var(--border);
 }
-.form__btn:hover {
-  box-shadow: 2px 2px 0px var(--designer-color);
+@media (hover: hover) {
+  .form__btn:hover {
+    box-shadow: 2px 2px 0px var(--designer-color);
+  }
 }
 
 @media (max-width: 1200px) {
